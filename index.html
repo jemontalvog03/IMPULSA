@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrimerPaso | Tu primera oportunidad</title>
+<style>
+:root {
+  --fondo:#f7f2e9; --blanco:#fffdf8; --beige:#e9dcc9;
+  --cafe:#67452f; --texto:#38291f; --verde:#496b4d;
+  --gris:#806e5d; --borde:#e5d8c7;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);
+font-family:Arial,Helvetica,sans-serif}
+header{background:var(--blanco);padding:18px 5%;
+border-bottom:1px solid var(--borde)}
+.logo{font-family:Georgia,serif;font-size:30px;font-weight:bold}
+nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+button{cursor:pointer;border:0;border-radius:9px;padding:12px 16px;
+font-weight:bold;background:var(--cafe);color:white}
+nav button,.secundario{background:var(--beige);color:var(--cafe)}
+button:hover{opacity:.82}
+main{max-width:1100px;margin:auto;padding:28px 20px;min-height:65vh}
+h1,h2{font-family:Georgia,serif}
+h1{font-size:clamp(32px,5vw,54px);line-height:1.1}
+h2{font-size:29px}
+p{line-height:1.7;color:var(--gris)}
+.hero,.card{background:var(--blanco);border:1px solid var(--borde);
+border-radius:16px;padding:24px;margin-bottom:16px}
+.hero{background:linear-gradient(135deg,#eee2d1,#f9f4eb)}
+.hero em{color:#987653}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.precio{color:var(--verde);font-size:22px;font-weight:bold}
+.etiqueta{display:inline-block;background:var(--beige);color:var(--cafe);
+padding:6px 10px;border-radius:20px;font-size:12px}
+input,textarea,select{width:100%;padding:12px;margin:7px 0 14px;
+border:1px solid var(--borde);border-radius:8px;background:white;color:var(--texto)}
+textarea{min-height:100px}
+label{font-size:13px;font-weight:bold}
+.oculto{display:none!important}
+.estado{background:#e8efe4;padding:14px;border-radius:9px;margin:12px 0}
+.pasos{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}
+.pasos span{background:var(--beige);padding:10px;border-radius:8px;font-size:12px}
+.certificado{background:white;border:5px double #b99a70;text-align:center;
+padding:30px;margin:20px auto;max-width:650px}
+.sello{font-size:60px}
+table{width:100%;border-collapse:collapse}
+td,th{text-align:left;padding:12px;border-bottom:1px solid var(--borde)}
+footer{text-align:center;padding:25px;background:var(--blanco);
+border-top:1px solid var(--borde);color:var(--gris);font-size:12px}
+@media(max-width:500px){main{padding:16px 12px}
+header{padding:16px}.hero,.card{padding:18px}nav button{padding:10px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">◢ PrimerPaso</div>
+  <p>Tu talento merece su primera oportunidad.</p>
+  <nav>
+    <button class="secundario" onclick="ir('inicio')">Inicio</button>
+    <button class="secundario" onclick="ir('retos')">Microretos</button>
+    <button class="secundario" onclick="ir('perfil')">Mi perfil</button>
+    <button class="secundario" onclick="ir('empresa')">Empresa</button>
+    <button class="secundario" onclick="ir('certificados')">Certificados</button>
+    <button class="secundario" onclick="ir('pagos')">Pagos</button>
+  </nav>
+</header>
+
+<main>
+<section id="inicio">
+  <div class="hero">
+    <span class="etiqueta">MICROPASANTÍAS REMUNERADAS</span>
+    <h1>Tu talento merece su primera <em>oportunidad.</em></h1>
+    <p>Conecta con empresas, realiza proyectos reales de 1 a 2 semanas,
+    gana dinero y construye experiencia profesional sin necesitar años
+    de experiencia previa.</p>
+    <button onclick="ir('retos')">Explorar microretos →</button>
+    <button class="secundario" onclick="ir('como')">Cómo funciona</button>
+  </div>
+  <div class="grid">
+    <div class="card">✦ <b>Retos reales</b><p>Proyectos de 7 a 14 días.</p></div>
+    <div class="card">♧ <b>Pago protegido</b><p>Pago sujeto a validación del trabajo.</p></div>
+    <div class="card">🏅 <b>Certificados</b><p>Insignias para tu portafolio profesional.</p></div>
+    <div class="card">♙ <b>Habilidades</b><p>Demuestra lo que sabes hacer.</p></div>
+  </div>
+</section>
+
+<section id="retos" class="oculto">
+  <h2>Explora los microretos</h2>
+  <p>Selecciona un proyecto, revisa las instrucciones y conoce su remuneración.</p>
+  <input id="busqueda" placeholder="Buscar por proyecto o habilidad..."
+  oninput="filtrar()">
+  <div id="lista" class="grid"></div>
+</section>
+
+<section id="detalle" class="oculto">
+  <button class="secundario" onclick="ir('retos')">← Volver</button>
+  <div class="card">
+    <span id="duracion" class="etiqueta"></span>
+    <h2 id="tituloReto"></h2>
+    <p id="descripcion"></p>
+    <h3>Instrucciones y requisitos</h3>
+    <ul id="requisitos"></ul>
+    <h3>Entregables</h3>
+    <ul id="entregables"></ul>
+    <h2 id="precioReto" class="precio"></h2>
+    <p>La empresa deberá financiar el reto antes de comenzar.</p>
+    <button onclick="aceptar()">Aceptar microreto</button>
+  </div>
+</section>
+
+<section id="proyecto" class="oculto">
+  <h2>Mi micropasantía</h2>
+  <div class="card">
+    <h3 id="proyectoTitulo"></h3>
+    <div id="progreso" class="pasos"></div>
+    <div id="estadoProyecto" class="estado"></div>
+    <h3>Instrucciones</h3>
+    <p id="instruccionesProyecto"></p>
+    <button onclick="financiar()">Simular depósito de la empresa</button>
+    <h3>Registrar avances y entregar trabajo</h3>
+    <label>Descripción de tu avance o entrega</label>
+    <textarea id="entrega" placeholder="Describe el trabajo realizado..."></textarea>
+    <label>Enlace o nombre del archivo</label>
+    <input id="archivo" placeholder="Ej. enlace del diseño o archivo.pdf">
+    <button onclick="enviar()">Guardar y entregar trabajo</button>
+  </div>
+</section>
+
+<section id="perfil" class="oculto">
+  <h2>Mi perfil profesional</h2>
+  <div class="card">
+    <label>Nombre completo</label>
+    <input id="nombre" value="María López">
+    <label>Correo electrónico</label>
+    <input id="correo" type="email" placeholder="tu-correo@ejemplo.com">
+    <label>Objetivo profesional</label>
+    <textarea id="objetivo" placeholder="Describe tus objetivos y fortalezas"></textarea>
+    <label>Agregar una habilidad práctica</label>
+    <input id="nuevaHabilidad" placeholder="Ej. Excel, Canva, redacción">
+    <button onclick="agregarHabilidad()">Agregar habilidad</button>
+    <div id="habilidades" class="pasos"></div>
+    <button onclick="guardarPerfil()">Guardar perfil</button>
+    <button class="secundario" onclick="generarCV()">Preparar CV imprimible</button>
+  </div>
+  <div class="card">
+    <h3>Mi portafolio</h3>
+    <p id="portafolio">Aquí aparecerán los proyectos aprobados.</p>
+    <button onclick="ir('certificados')">Ver certificados</button>
+  </div>
+</section>
+
+<section id="empresa" class="oculto">
+  <h2>Panel de empresa</h2>
+  <p>Revisa la entrega y simula la validación del trabajo.</p>
+  <div class="card">
+    <h3 id="empresaTitulo">Proyecto asignado</h3>
+    <p id="entregaEmpresa">Todavía no hay una entrega.</p>
+    <label>Comentario de revisión</label>
+    <textarea id="comentario" placeholder="Observaciones para el participante"></textarea>
+    <button onclick="corregir()">Solicitar correcciones</button>
+    <button onclick="aprobar()">Aprobar trabajo</button>
+  </div>
+</section>
+
+<section id="certificados" class="oculto">
+  <h2>Certificados e insignias</h2>
+  <div id="sinCertificado" class="card">
+    <p>Completa un reto y espera la aprobación de la empresa para obtener tu insignia.</p>
+  </div>
+  <div id="certificado" class="certificado oculto">
+    <div class="sello">🏅</div>
+    <span class="etiqueta">PRIMERPASO · CERTIFICADO DE DEMOSTRACIÓN</span>
+    <h2>Certificado de micropasantía</h2>
+    <p>Se certifica que</p>
+    <h2 id="certNombre"></h2>
+    <p>completó satisfactoriamente el proyecto:</p>
+    <h3 id="certProyecto"></h3>
+    <p id="certEmpresa"></p>
+    <p>Credencial de demostración. No es una certificación oficial.</p>
+    <button onclick="window.print()">Imprimir / Guardar como PDF</button>
+  </div>
+</section>
+
+<section id="pagos" class="oculto">
+  <h2>Mis pagos</h2>
+  <div class="card">
+    <p>Proyecto: <b id="pagoProyecto">Sin proyecto aceptado</b></p>
+    <p>Remuneración: <b id="pagoValor">$0 COP</b></p>
+    <div id="pagoEstado" class="estado">Estado: pendiente</div>
+    <button id="liberar" onclick="liberarPago()" class="oculto">
+      Simular liberación del pago
+    </button>
+    <p>Los pagos de este prototipo son simulados. No se transfieren fondos.</p>
+  </div>
+  <div class="card">
+    <h3>Modelo económico de referencia</h3>
+    <table>
+      <tr><td>Remuneración del joven</td><td>$150.000 COP</td></tr>
+      <tr><td>Comisión del 10%</td><td>$15.000 COP</td></tr>
+      <tr><td>Total empresa</td><td>$165.000 COP</td></tr>
+      <tr><td>Costos financieros estimados</td><td>$5.685 COP</td></tr>
+      <tr><td>Margen neto estimado</td><td>$9.315 COP</td></tr>
+      <tr><td>Costo inicial del prototipo</td><td>$2.000 COP</td></tr>
+    </table>
+    <p>Valores de referencia de la propuesta. Las tarifas y obligaciones reales deben verificarse.</p>
+  </div>
+</section>
+
+<section id="como" class="oculto">
+  <h2>¿Cómo funciona PrimerPaso?</h2>
+  <div class="card"><h3>1. Explora</h3><p>Encuentra retos con duración, instrucciones y pago definidos.</p></div>
+  <div class="card"><h3>2. Acepta</h3><p>Confirma las condiciones y espera la financiación de la empresa.</p></div>
+  <div class="card"><h3>3. Desarrolla</h3><p>Realiza el trabajo y entrega los resultados acordados.</p></div>
+  <div class="card"><h3>4. Valida y cobra</h3><p>La empresa revisa la entrega. Si la aprueba, se genera el certificado y se simula la liberación del pago.</p></div>
+  <button onclick="ir('retos')">Comenzar →</button>
+</section>
+</main>
+
+<footer>PrimerPaso · Tu talento merece su primera oportunidad.<br>
+Prototipo de demostración · No procesa pagos reales.</footer>
+
+<script>
+const retos=[
+{id:1,titulo:"Diseño de piezas para redes sociales",empresa:"EcoMarket",
+categoria:"Diseño gráfico",dias:7,precio:150000,icono:"🎨",
+descripcion:"Diseña tres piezas gráficas para Instagram de un emprendimiento sostenible.",
+requisitos:["Manejo básico de Canva","Creatividad y comunicación visual","Cumplir la guía de marca"],
+entregables:["3 imágenes PNG o JPG","Enlace editable del diseño","Descripción de las piezas"]},
+{id:2,titulo:"Organización de base de datos",empresa:"DataPYME",
+categoria:"Análisis de datos",dias:14,precio:250000,icono:"📊",
+descripcion:"Organiza una base de datos de clientes y entrega un informe de resultados.",
+requisitos:["Manejo básico de Excel o Sheets","Atención al detalle"],
+entregables:["Base organizada","Informe de hallazgos","Archivo editable"]},
+{id:3,titulo:"Redacción de artículos de blog",empresa:"BlogPlus",
+categoria:"Redacción",dias:7,precio:120000,icono:"✍️",
+descripcion:"Redacta dos artículos para el blog de una marca.",
+requisitos:["Buena redacción","Investigación y síntesis"],
+entregables:["Dos artículos editables","Títulos y fuentes consultadas"]},
+{id:4,titulo:"Plan de contenido digital",empresa:"StartNow",
+categoria:"Marketing",dias:14,precio:180000,icono:"📱",
+descripcion:"Prepara una propuesta de contenido de dos semanas para un emprendimiento.",
+requisitos:["Conocimiento de redes sociales","Creatividad y planificación"],
+entregables:["Calendario de publicaciones","Seis ideas de contenido"]}
+];
+let elegido=null,estado="disponible",financiado=false,certificadoListo=false;
+let habilidades=["Diseño gráfico","Canva","Redes sociales"];
+let nombre="María López",objetivo="",textoEntrega="",archivoEntrega="";
+function moneda(n){return "$"+n.toLocaleString("es-CO")+" COP"}
+function ir(id){
+document.querySelectorAll("main section").forEach(s=>s.classList.add("oculto"));
+document.getElementById(id).classList.remove("oculto");
+if(id==="retos")filtrar();
+if(id==="perfil")mostrarHabilidades();
+if(id==="proyecto")mostrarProyecto();
+if(id==="empresa")mostrarEmpresa();
+if(id==="pagos")mostrarPagos();
+if(id==="certificados")mostrarCertificado();
+window.scrollTo(0,0);
+}
+function filtrar(){
+let q=(document.getElementById("busqueda")?.value||"").toLowerCase();
+document.getElementById("lista").innerHTML=retos.filter(r=>(r.titulo+" "+r.categoria+" "+r.empresa).toLowerCase().includes(q)).map(r=>`
+<div class="card"><div style="font-size:42px">${r.icono}</div>
+<span class="etiqueta">${r.dias} días</span><h3>${r.titulo}</h3>
+<p>${r.empresa} · ${r.categoria}</p><p>${r.descripcion}</p>
+<div class="precio">${moneda(r.precio)}</div>
+<button onclick="verReto(${r.id})">Ver detalles →</button></div>`).join("")||"<p>No hay resultados.</p>";
+}
+function verReto(id){
+elegido=retos.find(r=>r.id===id);
+document.getElementById("duracion").textContent=elegido.dias+" días · Remoto";
+document.getElementById("tituloReto").textContent=elegido.titulo;
+document.getElementById("descripcion").textContent=elegido.descripcion;
+document.getElementById("precioReto").textContent=moneda(elegido.precio);
+document.getElementById("requisitos").innerHTML=elegido.requisitos.map(x=>"<li>"+x+"</li>").join("");
+document.getElementById("entregables").innerHTML=elegido.entregables.map(x=>"<li>"+x+"</li>").join("");
+ir("detalle");
+}
+function aceptar(){
+if(!elegido)return;
+estado="aceptado";financiado=false;textoEntrega="";archivoEntrega="";
+ir("proyecto");
+}
+function financiar(){
+if(!elegido)return;
+financiado=true;estado="en desarrollo";
+alert("Financiación simulada confirmada. No se ha recibido dinero real.");
+mostrarProyecto();
+}
+function mostrarProyecto(){
+if(!elegido){document.getElementById("proyectoTitulo").textContent="Primero selecciona un microreto.";return}
+document.getElementById("proyectoTitulo").textContent=elegido.titulo;
+document.getElementById("instruccionesProyecto").textContent=elegido.descripcion+" Entregables: "+elegido.entregables.join("; ");
+document.getElementById("estadoProyecto").textContent="Estado: "+estado+
+(financiado?" · Financiación simulada confirmada":"");
+document.getElementById("progreso").innerHTML=["Aceptado","En desarrollo","Entregado","Validado","Pagado"].map((s,i)=>`<span>${i+1}. ${s}</span>`).join("");
+document.getElementById("entrega").value=textoEntrega;
+document.getElementById("archivo").value=archivoEntrega;
+}
+function enviar(){
+if(!elegido){alert("Selecciona primero un microreto.");return}
+if(!financiado){alert("Primero simula el depósito de la empresa.");return}
+textoEntrega=document.getElementById("entrega").value.trim();
+archivoEntrega=document.getElementById("archivo").value.trim();
+if(!textoEntrega){alert("Describe el trabajo antes de entregarlo.");return}
+estado="entregado";
+alert("Trabajo enviado. La empresa ya puede revisar la entrega.");
+ir("proyecto");
+}
+function mostrarEmpresa(){
+document.getElementById("empresaTitulo").textContent=elegido?elegido.titulo:"No hay proyecto asignado";
+document.getElementById("entregaEmpresa").textContent=textoEntrega?
+"Entrega: "+textoEntrega+(archivoEntrega?" · Archivo: "+archivoEntrega:""):
+"Todavía no hay una entrega.";
+}
+function corregir(){
+if(estado!=="entregado"){alert("Debe existir una entrega pendiente de revisión.");return}
+estado="correcciones solicitadas";
+alert("Correcciones solicitadas. El participante puede ajustar su entrega.");
+ir("proyecto");
+}
+function aprobar(){
+if(estado!=="entregado"){alert("Primero el participante debe enviar su trabajo.");return}
+estado="aprobado";certificadoListo=true;
+alert("Trabajo aprobado. Certificado de demostración generado.");
+ir("certificados");
+}
+function mostrarCertificado(){
+document.getElementById("sinCertificado").classList.toggle("oculto",certificadoListo);
+document.getElementById("certificado").classList.toggle("oculto",!certificadoListo);
+if(certificadoListo&&elegido){
+document.getElementById("certNombre").textContent=nombre;
+document.getElementById("certProyecto").textContent=elegido.titulo;
+document.getElementById("certEmpresa").textContent="Empresa: "+elegido.empresa+
+" · Duración: "+elegido.dias+" días · Código demo PP-"+elegido.id+"001";
+}
+}
+function mostrarPagos(){
+document.getElementById("pagoProyecto").textContent=elegido?elegido.titulo:"Sin proyecto aceptado";
+document.getElementById("pagoValor").textContent=elegido?moneda(elegido.precio):"$0 COP";
+document.getElementById("pagoEstado").textContent="Estado: "+(estado==="pagado"?"Pagado (simulado)":estado==="aprobado"?"Aprobado · Pendiente de liberación":estado==="entregado"?"En revisión":financiado?"Financiado (simulado)":"Pendiente");
+document.getElementById("liberar").classList.toggle("oculto",estado!=="aprobado");
+}
+function liberarPago(){
+if(estado!=="aprobado"){alert("El trabajo debe estar aprobado.");return}
+estado="pagado";alert("Pago marcado como liberado en la demo. No se transfirió dinero.");
+mostrarPagos();
+}
+function mostrarHabilidades(){
+document.getElementById("nombre").value=nombre;
+document.getElementById("objetivo").value=objetivo;
+document.getElementById("portafolio").textContent=certificadoListo?
+"Proyecto aprobado: "+elegido.titulo:"Aquí aparecerán los proyectos aprobados.";
+mostrarHabilidadesLista();
+}
+function mostrarHabilidadesLista(){
+document.getElementById("habilidades").innerHTML=habilidades.map((h,i)=>
+`<span>${h} <button class="secundario" onclick="quitarHabilidad(${i})">×</button></span>`).join("");
+}
+function mostrarHabilidades(){mostrarHabilidadesLista();
+document.getElementById("nombre").value=nombre;
+document.getElementById("objetivo").value=objetivo;
+document.getElementById("portafolio").textContent=certificadoListo?"Proyecto aprobado: "+elegido.titulo:"Aquí aparecerán los proyectos aprobados.";
+}
+function agregarHabilidad(){
+let x=document.getElementById("nuevaHabilidad").value.trim();
+if(x&&!habilidades.includes(x))habilidades.push(x);
+document.getElementById("nuevaHabilidad").value="";
+mostrarHabilidadesLista();
+}
+function quitarHabilidad(i){habilidades.splice(i,1);mostrarHabilidadesLista()}
+function guardarPerfil(){
+nombre=document.getElementById("nombre").value.trim()||"Usuario";
+objetivo=document.getElementById("objetivo").value;
+alert("Perfil actualizado.");
+}
+function generarCV(){
+guardarPerfil();
+let w=window.open("","_blank");
+if(!w){alert("Permite las ventanas emergentes para imprimir el CV.");return}
+w.document.write(`<html lang="es"><meta charset="UTF-8"><title>CV - ${nombre}</title>
+<body style="font-family:Arial;padding:40px;color:#38291f">
+<h1>${nombre}</h1><p>${document.getElementById("correo").value}</p>
+<h2>Perfil profesional</h2><p>${objetivo}</p><h2>Habilidades</h2>
+<p>${habilidades.join(" · ")}</p><h2>Proyectos</h2>
+<p>${certificadoListo?elegido.titulo+" — "+elegido.empresa:"Sin proyectos aprobados todavía."}</p>
+<script>window.onload=()=>window.print()<\/script></body></html>`);
+w.document.close();
+}
+filtrar();
+</script>
+</body>
+</html>
